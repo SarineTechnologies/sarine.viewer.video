@@ -1,5 +1,5 @@
 ###!
-sarine.viewer.video - v0.1.0 -  Wednesday, August 19th, 2015, 10:21:56 AM 
+sarine.viewer.video - v0.1.0 -  Wednesday, August 19th, 2015, 2:15:32 PM 
  The source code, name, and look and feel of the software are Copyright © 2015 Sarine Technologies Ltd. All Rights Reserved. You may not duplicate, copy, reuse, sell or otherwise exploit any portion of the code, content or visual design elements without express written permission from Sarine Technologies Ltd. The terms and conditions of the sarine.com website (http://sarine.com/terms-and-conditions/) apply to the access and use of this software.
 ###
 
@@ -29,10 +29,11 @@ class Video extends Viewer
 			@element.find("video").append($source);		
 		
 		_t = @
-		@loadImage(@callbackPic).then((img)-> 
-			$image = $("<img>")
-			$image.attr {src : img.src, alt : 'No video playback capabilities', class :'no_stone' ,  title : 'No video playback capabilities'}
-			_t.element.find("video").append($image)
+		arr = @callbackPic.split('/')
+		arr.pop()
+		playUrl = arr.join('/') + '/play.png' 
+		@loadImage(playUrl).then((img)-> 
+			_t.element.find("video").attr {poster : img.src}  
 			defer.resolve(@)
 		)
 
