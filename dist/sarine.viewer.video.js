@@ -1,6 +1,6 @@
 
 /*!
-sarine.viewer.video - v0.1.0 -  Wednesday, August 19th, 2015, 10:21:56 AM 
+sarine.viewer.video - v0.1.0 -  Wednesday, August 19th, 2015, 2:15:32 PM 
  The source code, name, and look and feel of the software are Copyright © 2015 Sarine Technologies Ltd. All Rights Reserved. You may not duplicate, copy, reuse, sell or otherwise exploit any portion of the code, content or visual design elements without express written permission from Sarine Technologies Ltd. The terms and conditions of the sarine.com website (http://sarine.com/terms-and-conditions/) apply to the access and use of this software.
  */
 
@@ -27,7 +27,7 @@ sarine.viewer.video - v0.1.0 -  Wednesday, August 19th, 2015, 10:21:56 AM
     };
 
     Video.prototype.first_init = function() {
-      var $source, defer, videoFile, _i, _len, _ref, _t;
+      var $source, arr, defer, playUrl, videoFile, _i, _len, _ref, _t;
       defer = $.Deferred();
       if (this.videoLoop !== "false") {
         this.video.attr({
@@ -61,16 +61,13 @@ sarine.viewer.video - v0.1.0 -  Wednesday, August 19th, 2015, 10:21:56 AM
         this.element.find("video").append($source);
       }
       _t = this;
-      this.loadImage(this.callbackPic).then(function(img) {
-        var $image;
-        $image = $("<img>");
-        $image.attr({
-          src: img.src,
-          alt: 'No video playback capabilities',
-          "class": 'no_stone',
-          title: 'No video playback capabilities'
+      arr = this.callbackPic.split('/');
+      arr.pop();
+      playUrl = arr.join('/') + '/play.png';
+      this.loadImage(playUrl).then(function(img) {
+        _t.element.find("video").attr({
+          poster: img.src
         });
-        _t.element.find("video").append($image);
         return defer.resolve(this);
       });
       return defer;
