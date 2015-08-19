@@ -1,6 +1,6 @@
 
 /*!
-sarine.viewer.video - v0.0.0 -  Sunday, August 16th, 2015, 11:55:27 AM 
+sarine.viewer.video - v0.0.0 -  Wednesday, August 19th, 2015, 10:13:45 AM 
  The source code, name, and look and feel of the software are Copyright © 2015 Sarine Technologies Ltd. All Rights Reserved. You may not duplicate, copy, reuse, sell or otherwise exploit any portion of the code, content or visual design elements without express written permission from Sarine Technologies Ltd. The terms and conditions of the sarine.com website (http://sarine.com/terms-and-conditions/) apply to the access and use of this software.
  */
 
@@ -75,6 +75,11 @@ sarine.viewer.video - v0.0.0 -  Sunday, August 16th, 2015, 11:55:27 AM
 
     function Video(options) {
       Video.__super__.constructor.call(this, options);
+      this.videoFiles = options.videoFiles;
+      this.videoLoop = this.element.data('loop') || true;
+      this.videoAutoPlay = this.element.data('autoplay') || true;
+      this.controls = this.element.data('controls') || false;
+      this.videoSize = this.element.data('size') || false;
     }
 
     Video.prototype.convertElement = function() {
@@ -83,9 +88,52 @@ sarine.viewer.video - v0.0.0 -  Sunday, August 16th, 2015, 11:55:27 AM
     };
 
     Video.prototype.first_init = function() {
-      var defer;
+      var $source, defer, videoFile, _i, _len, _ref, _t;
       defer = $.Deferred();
-      defer.resolve(this);
+      if (this.videoLoop !== "false") {
+        this.video.attr({
+          "loop": "loop"
+        });
+      }
+      if (this.videoAutoPlay !== "false") {
+        this.video.attr({
+          "autoplay": "autoplay"
+        });
+      }
+      if (this.controls) {
+        this.video.attr({
+          controls: true
+        });
+      }
+      if (this.videoSize) {
+        this.video.attr({
+          width: this.element.data('size'),
+          height: this.element.data('size')
+        });
+      }
+      _ref = this.videoFiles;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        videoFile = _ref[_i];
+        $source = $('<source>');
+        $source.attr({
+          type: "video/" + videoFile.fileType,
+          src: [this.src, videoFile.fileName + "." + videoFile.fileType].join("/")
+        });
+        this.element.find("video").append($source);
+      }
+      _t = this;
+      this.loadImage(this.callbackPic).then(function(img) {
+        var $image;
+        $image = $("<img>");
+        $image.attr({
+          src: img.src,
+          alt: 'No video playback capabilities',
+          "class": 'no_stone',
+          title: 'No video playback capabilities'
+        });
+        _t.element.find("video").append($image);
+        return defer.resolve(this);
+      });
       return defer;
     };
 
