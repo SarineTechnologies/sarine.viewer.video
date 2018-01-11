@@ -1,4 +1,5 @@
 {
+  "name": "sarine.viewer.video",
   "devDependencies": {
     "grunt-git-release": "^0.1.3",
     "grunt": "^0.4.5",
