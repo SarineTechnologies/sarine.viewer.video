@@ -6,7 +6,7 @@
     "url": "https://github.com/SarineTechnologies/sarine.viewer.video.git"
   },
   "dependencies": {
-    "sarine.viewer": "https://github.com/SarineTechnologies/sarine.viewer.git#dev"    
+    "sarine.viewer": "https://github.com/SarineTechnologies/sarine.viewer.git#dev"
   },
   "devDependencies": {
     "grunt-git-release": "^0.1.3",
